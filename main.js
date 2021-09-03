@@ -3,14 +3,17 @@ const searchBook = () => {
   const searchText = searchField.value;
   // clear data
   searchField.value = '';
-
+  if (searchText == '') {
+    document.getElementById('result-number').innerText = "please give some valid text";
+    return
+  }
 
 
   const url = `https://openlibrary.org/search.json?q=${searchText}`;
 
   fetch(url)
     .then(res => res.json())
-    .then(data => displaySearchResult(data.docs))
+    .then(data => displaySearchResult(data.docs, data))
 
 
 
@@ -18,14 +21,14 @@ const searchBook = () => {
 }
 
 
-const displaySearchResult = docs => {
+const displaySearchResult = (docs, data) => {
   // const totalResult = docs.slice(0, 10);
   // console.log(totalResult);
   // searchResult.textContent = '';
   // if (docs.length == 0) {
 
   // }
-
+  document.getElementById('result-number').innerText = data.numFound;
   const searchResult = document.getElementById('search-result');
   docs.forEach(doc => {
     // console.log(doc);
